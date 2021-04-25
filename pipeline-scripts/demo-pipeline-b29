@@ -17,7 +17,7 @@ node('build-server') {
         // Get the Maven tool.
         // ** NOTE: This 'M3' Maven tool must be configured
         // **       in the global configuration.
-        mvnHome = tool 'maven-3.6'        
+        mvnHome = tool 'maven-3.8'        
     }
     stage('Build') {
         // Run the maven build
