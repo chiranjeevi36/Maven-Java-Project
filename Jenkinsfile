@@ -1,3 +1,9 @@
+def remote = [:]
+         remote.name = 'ansible'
+         remote.host = '172.31.12.84'
+         remote.user = 'centos'
+         remote.password = 'Rnstech@123'
+         remote.allowAnyHosts = true
 pipeline {
     agent { label 'build-server'}
 
@@ -11,6 +17,13 @@ pipeline {
             steps {
                 // Get some code from a GitHub repository
                 git credentialsId: 'github-server-credentials', url: 'https://github.com/chiranjeevi36/Maven-Java-Project.git'    
+            }  
+        }
+        stage('Tools-Setup') {
+            steps {
+                 sshCommand remote: remote, command: 'cd Maven-Java-Project; git pull'
+                 sshCommand remote: remote, command: 'cd Maven-Java-Project; ansible-playbook -i hosts tools/sonarqube/sonar-install.yaml'
+                 sshCommand remote: remote, command: 'cd Maven-Java-Project; ansible-playbook -i hosts tools/docker/docker-install.yml'    
             }  
         }
     }
