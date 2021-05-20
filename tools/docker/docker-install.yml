@@ -5,7 +5,7 @@
   become: true
 
   tasks:
-    - name: Install yum utils -y
+    - name: Install yum-utils -y
       yum:
         name: yum-utils
         state: latest
