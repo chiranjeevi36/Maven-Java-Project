@@ -10,7 +10,7 @@ pipeline {
         stage('Prepare-Workspace') {
             steps {
                 // Get some code from a GitHub repository
-                git credentialsId: 'github-server-credentials', url: 'https://github.com/venkat09docs/Maven-Java-Project.git'    
+                git credentialsId: 'github-server-credentials', url: 'https://github.com/chiranjeevi36/Maven-Java-Project.git'    
             }  
         }
     }
