@@ -1,15 +1,15 @@
 def ansible = [:]
-         remote.name = 'ansible'
-         remote.host = '172.31.12.84'
-         remote.user = 'centos'
-         remote.password = 'Rnstech@123'
-         remote.allowAnyHosts = true
+         ansible.name = 'ansible'
+         ansible.host = '172.31.12.84'
+         ansible.user = 'centos'
+         ansible.password = 'Rnstech@123'
+         ansible.allowAnyHosts = true
 def kops = [:]
-         remote.name = 'kops'
-         remote.host = '172.31.13.214'
-         remote.user = 'centos'
-         remote.password = 'Rnstech@123'
-         remote.allowAnyHosts = true
+         kops.name = 'kops'
+         kops.host = '172.31.13.214'
+         kops.user = 'centos'
+         kops.password = 'Rnstech@123'
+         kops.allowAnyHosts = true
 pipeline {
     agent { label 'build-server'}
 
