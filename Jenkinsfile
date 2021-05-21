@@ -22,7 +22,8 @@ pipeline {
         stage('Prepare-Workspace') {
             steps {
                 // Get some code from a GitHub repository
-                git credentialsId: 'github-server-credentials', url: 'https://github.com/chiranjeevi36/Maven-Java-Project.git'    
+                git credentialsId: 'github-server-credentials', url: 'https://github.com/chiranjeevi36/Maven-Java-Project.git'
+		stash 'Source'    
             }  
         }
         stage('Tools-Setup') {
@@ -57,6 +58,18 @@ pipeline {
           post{
               success{
                   junit 'target/surefire-reports/*.xml'
+              }
+          }
+      }
+	stage('Build Code') {
+         
+          steps{
+	      unstash 'Source'
+              sh "mvn clean package"  
+          }
+          post{
+              success{
+                  archiveArtifacts '**/*.war'
               }
           }
       }    
