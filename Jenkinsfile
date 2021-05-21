@@ -107,6 +107,6 @@ pipeline {
              unstash 'Source'
             sh "mvn clean verify"
         }
-      }    
+      }  
     }
  }
