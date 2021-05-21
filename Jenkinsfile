@@ -53,7 +53,7 @@ pipeline {
 	stage('Unit Test Cases') {
          
           steps{
-		 sh echo "Clean and Test" 
+		 echo "Clean and Test" 
               // sh "mvn clean test"  
           }
           post{
