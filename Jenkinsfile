@@ -29,14 +29,14 @@ pipeline {
         stage('Tools-Setup') {
             steps {
 		    echo "Tools Setup"
-                //sshCommand remote: ansible, command: 'cd Maven-Java-Project; git pull'
-                //sshCommand remote: ansible, command: 'cd Maven-Java-Project; ansible-playbook -i hosts tools/sonarqube/sonar-install.yaml'
-                //sshCommand remote: ansible, command: 'cd Maven-Java-Project; ansible-playbook -i hosts tools/docker/docker-install.yml'
+                sshCommand remote: ansible, command: 'cd Maven-Java-Project; git pull'
+                sshCommand remote: ansible, command: 'cd Maven-Java-Project; ansible-playbook -i hosts tools/sonarqube/sonar-install.yaml'
+                sshCommand remote: ansible, command: 'cd Maven-Java-Project; ansible-playbook -i hosts tools/docker/docker-install.yml'
                      
                 //K8s Setup
-                //sshCommand remote: kops, command: "cd Maven-Java-Project; git pull"
-	       //sshCommand remote: kops, command: "kubectl apply -f Maven-Java-Project/k8s-code/staging/namespace/staging-ns.yml"
-	       //sshCommand remote: kops, command: "kubectl apply -f Maven-Java-Project/k8s-code/prod/namespace/prod-ns.yml"
+                sshCommand remote: kops, command: "cd Maven-Java-Project; git pull"
+	       sshCommand remote: kops, command: "kubectl apply -f Maven-Java-Project/k8s-code/staging/namespace/staging-ns.yml"
+	       sshCommand remote: kops, command: "kubectl apply -f Maven-Java-Project/k8s-code/prod/namespace/prod-ns.yml"
                      
             }  
         }
@@ -44,22 +44,22 @@ pipeline {
 		
           steps{
                 echo "Sonar Scanner"
-                 // sh "mvn clean compile"
-               // withSonarQubeEnv('sonar-7') { 
-                 // sh "mvn sonar:sonar "
-               // }                     
+                  sh "mvn clean compile"
+                withSonarQubeEnv('sonar-7') { 
+                  sh "mvn sonar:sonar "
+                }                     
           }
       }
 	stage('Unit Test Cases') {
          
           steps{
 		 echo "Clean and Test" 
-              // sh "mvn clean test"  
+               sh "mvn clean test"  
           }
           post{
               success{
 		      echo "Clean and Test"
-                 // junit 'target/surefire-reports/*.xml'
+                  junit 'target/surefire-reports/*.xml'
               }
           }
       }
