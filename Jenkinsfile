@@ -72,6 +72,12 @@ pipeline {
                   archiveArtifacts '**/*.war'
               }
           }
-      }    
+      }
+	stage('Build Docker Image') {
+     
+         steps{
+                  sh "docker build -t chiru236/webapp ."  
+         }
+     }
     }
 }
