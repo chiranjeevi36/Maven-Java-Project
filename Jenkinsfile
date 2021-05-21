@@ -79,5 +79,15 @@ pipeline {
                   sh "docker build -t chiru236/webapp ."  
          }
      }
+       stage('Publish Docker Image') {
+  
+    steps{
+
+    	withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
+    		sh "docker login -u ${dockerUser} -p ${dockerPassword}"
+	}
+        	sh "docker push chiru236/webapp"
+       }
+     }
     }
 }
