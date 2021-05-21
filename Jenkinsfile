@@ -38,5 +38,15 @@ pipeline {
                      
             }  
         }
+	stage('SonarQube analysis') {
+		
+          steps{
+                echo "Sonar Scanner"
+                  sh "${mvnHome}/bin/mvn clean compile"
+                withSonarQubeEnv('sonar-7') { 
+                  sh "${mvnHome}/bin/mvn sonar:sonar "
+                }                     
+          }
+      }
     }
 }
