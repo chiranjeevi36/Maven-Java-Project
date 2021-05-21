@@ -42,9 +42,9 @@ pipeline {
 		
           steps{
                 echo "Sonar Scanner"
-                  sh "${mvnHome}/bin/mvn clean compile"
+                  sh "mvn clean compile"
                 withSonarQubeEnv('sonar-7') { 
-                  sh "${mvnHome}/bin/mvn sonar:sonar "
+                  sh "mvn sonar:sonar "
                 }                     
           }
       }
