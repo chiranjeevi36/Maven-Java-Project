@@ -93,5 +93,22 @@ pipeline {
         	sh "docker push chiru236/webapp"
         }
       }
+      stage('Deploy to Staging') {
+	
+	steps{
+	      //Deploy to K8s Cluster 
+              echo "Deploy to Staging Server"
+	      sshCommand remote: kops, command: "cd Maven-Java-Project; git pull"
+	      sshCommand remote: kops, command: "kubectl apply -f Maven-Java-Project/k8s-code/staging/app/."
+	}		    
+    }
+      stage ('Integration-Test') {
+	
+	steps {
+             echo "Run Integration Test Cases"
+             unstash 'Source'
+            sh "mvn clean verify"
+        }
+      }    
     }
  }
