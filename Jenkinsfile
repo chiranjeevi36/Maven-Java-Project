@@ -103,13 +103,32 @@ pipeline {
 	      sshCommand remote: kops, command: "kubectl apply -f Maven-Java-Project/k8s-code/staging/app/."
 	}		    
     }
-      stage ('Integration-Test') {
+    stage ('Integration-Test') {
 	
 	steps {
              echo "Run Integration Test Cases"
              unstash 'Source'
             sh "mvn clean verify"
         }
-      }    
+      }
+      stage ('approve') {
+	
+	steps {
+		echo "Approval State"
+                timeout(time: 7, unit: 'DAYS') {                    
+			input message: 'Do you want to deploy?', submitter: 'admin'
+		}
+	   }
+     }
+
+     stage ('Prod-Deploy') {
+	
+	steps{
+              echo "Deploy to Production"
+	      //Deploy to Prod K8s Cluster
+	      sshCommand remote: kops, command: "cd Maven-Java-Project; git pull"
+	      sshCommand remote: kops, command: "kubectl apply -f Maven-Java-Project/k8s-code/prod/app/."
+	   }
+       }    
     }
  }
