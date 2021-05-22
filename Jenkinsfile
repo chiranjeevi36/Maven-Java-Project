@@ -63,5 +63,35 @@ pipeline {
               }
           }
        }
+	 stage('Build Code') {
+         
+          steps{
+	      unstash 'Source'
+              sh "mvn clean package"  
+          }
+          post{
+              success{
+                  archiveArtifacts '**/*.war'
+              }
+          }
+      }
+      
+    stage('Build Docker Image') {
+         
+         steps{
+                  sh "docker build -t chiru236/webapp ."  
+         }
+     }
+     
+     stage('Publish Docker Image') {
+         
+      steps{
+
+    	withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
+    		sh "docker login -u ${dockerUser} -p ${dockerPassword}"
+	}
+        	sh "docker push chiru236/webapp"
+        }
+      }
     }
  }
